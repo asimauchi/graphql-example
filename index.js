@@ -863,78 +863,650 @@
  ********* Video 11 **************
  ********************************/
 
- /* add getVideos helper method */
- const { getVideoById, getVideos, createVideo } = require('./src/data');
- const express = require('express');
- const graphqlHTTP = require('express-graphql');
- const PORT = process.env.PORT || 3000;
- const server = express();
+//  /* add getVideos helper method */
+//  const { getVideoById, getVideos, createVideo } = require('./src/data');
+//  const express = require('express');
+//  const graphqlHTTP = require('express-graphql');
+//  const PORT = process.env.PORT || 3000;
+//  const server = express();
+//
+//  /* Added GraphQLListType */
+//  const {
+//    GraphQLNonNull,
+//    GraphQLInputObjectType,
+//    GraphQLList,
+//    GraphQLSchema,
+//    GraphQLObjectType,
+//    GraphQLID,
+//    GraphQLInt,
+//    GraphQLString,
+//    GraphQLBoolean
+//  } = require('graphql');
+//
+//  const videoType = new GraphQLObjectType({
+//    name: 'VideoType',
+//    description: 'A video on my app.',
+//    fields: {
+//      id: {
+//        type: GraphQLID,
+//        description: 'The id of the video'
+//      },
+//      title: {
+//        type: GraphQLString,
+//        description: 'The title of the video'
+//      },
+//      duration: {
+//        type: GraphQLInt,
+//        description: 'The duration of the video (in seconds)'
+//      },
+//      watched: {
+//        type: GraphQLBoolean,
+//        description: 'Whether or not the user has watched the video before'
+//      }
+//    },
+//  });
+//
+//  const queryType = new GraphQLObjectType({
+//    name: 'QueryType',
+//    description: 'The root query type.',
+//    fields: {
+//      video: {
+//        type: videoType,
+//        args: {
+//          id: {
+//            /* Make ID a required type, throws error otherwise */
+//            type: new GraphQLNonNull(GraphQLID),
+//            description: 'The id of the video'
+//          }
+//        },
+//        /*signature for resolve is (rootObject, args, context) */
+//        resolve: (_, args) => {
+//          return getVideoById(args.id)
+//        },
+//      },
+//      /* Add videos to the queryType with a new GraphQLListType of videoType */
+//      videos: {
+//        type: new GraphQLList(videoType),
+//        resolve: getVideos
+//      }
+//    }
+//  });
+//
+// const videoInputType = new GraphQLInputObjectType({
+//   name: 'VideoInput',
+//   fields: {
+//     title: {
+//       type: new GraphQLNonNull(GraphQLString),
+//       description: 'The title of the video.',
+//     },
+//     duration: {
+//       type: new GraphQLNonNull(GraphQLInt),
+//       description: 'The duration of the video (in seconds).',
+//     },
+//     released: {
+//       type: new GraphQLNonNull(GraphQLBoolean),
+//       description: 'Whether or not the video is released.',
+//     },
+//   }
+// })
+//  /* Instead of having this mutation field where each of the arguments correspond
+//  to some field that we want to create, we can use something called an input type
+//  to capture all of these arguments in a single object type and be able to query
+//  for these more complex related types.
+//
+//  What we can do is get rid of all of these arguments and replace them with a
+//  single one called video and the type of this will be a new GraphQLNonNull and
+//  we'll call the argument here a videoInputType.*/
+//
+//  const mutationType = new GraphQLObjectType({
+//      name: 'Mutation',
+//      description: 'The root Mutation type',
+//      fields: {
+//        createVideo: {
+//          type: videoType,
+//          args: {
+//            video: {
+//              type: new GraphQLNonNull(videoInputType)
+//            },
+//          },
+//          resolve: (_, args) => {
+//            return createVideo(args.video);
+//          },
+//        },
+//      },
+//  });
+//
+//  const schema = new GraphQLSchema({
+//    query: queryType,
+//    mutation: mutationType,
+//  });
+//
+//  server.use('/graphql', graphqlHTTP({
+//      schema,
+//      graphiql: true,
+//      /* rootValue was removed, I hypothesize because the resolvers are now
+//      defined within the schema we are passing in   */
+//  }));
+//
+//  server.listen(PORT, () => { graphqlHTTP
+//    console.log(`Listening on http://localhost:${PORT}`);
+//  });
+//
+//  /* run node index.js in terminal/commandPrompt to see results. Then attempt to
+//  create a new video with a mutation, like the following:
+//  mutation M {
+//    createVideo(
+//      video: {
+//        title: "Foo",
+//        duration: 300,
+//        released: false
+//      }
+//    ){
+//      id
+//      title
+//    }
+//  }
+//
+// */
 
- /* Added GraphQLListType */
- const {
-   GraphQLNonNull,
-   GraphQLInputObjectType,
-   GraphQLList,
-   GraphQLSchema,
-   GraphQLObjectType,
-   GraphQLID,
-   GraphQLInt,
-   GraphQLString,
-   GraphQLBoolean
- } = require('graphql');
+ /********************************
+ ********* Video 12 **************
+ ********************************/
 
- const videoType = new GraphQLObjectType({
-   name: 'VideoType',
-   description: 'A video on my app.',
-   fields: {
-     id: {
-       type: GraphQLID,
-       description: 'The id of the video'
-     },
-     title: {
-       type: GraphQLString,
-       description: 'The title of the video'
-     },
-     duration: {
-       type: GraphQLInt,
-       description: 'The duration of the video (in seconds)'
-     },
-     watched: {
-       type: GraphQLBoolean,
-       description: 'Whether or not the user has watched the video before'
-     }
+// /* add getVideos helper method */
+// const { getVideoById, getVideos, createVideo } = require('./src/data');
+// /* import nodeInterface */
+// const nodeInterface = require('./src/node');
+// const express = require('express');
+// const graphqlHTTP = require('express-graphql');
+// const PORT = process.env.PORT || 3000;
+// const server = express();
+//
+// /* Added GraphQLListType */
+// const {
+//   GraphQLNonNull,
+//   GraphQLInputObjectType,
+//   GraphQLList,
+//   GraphQLSchema,
+//   GraphQLObjectType,
+//   GraphQLID,
+//   GraphQLInt,
+//   GraphQLString,
+//   GraphQLBoolean
+// } = require('graphql');
+//
+// const videoType = new GraphQLObjectType({
+//   name: 'VideoType',
+//   description: 'A video on my app.',
+//   fields: {
+//     id: {
+//       type: new GraphQLNonNull(GraphQLID),
+//       description: 'The id of the video'
+//     },
+//     title: {
+//       type: GraphQLString,
+//       description: 'The title of the video'
+//     },
+//     duration: {
+//       type: GraphQLInt,
+//       description: 'The duration of the video (in seconds)'
+//     },
+//     watched: {
+//       type: GraphQLBoolean,
+//       description: 'Whether or not the user has watched the video before'
+//     }
+//   },
+//   interfaces: [nodeInterface],
+// });
+//
+// exports.videoType = videoType;
+//
+// const queryType = new GraphQLObjectType({
+//   name: 'QueryType',
+//   description: 'The root query type.',
+//   fields: {
+//     video: {
+//       type: videoType,
+//       args: {
+//         id: {
+//           /* Make ID a required type, throws error otherwise */
+//           type: new GraphQLNonNull(GraphQLID),
+//           description: 'The id of the video'
+//         }
+//       },
+//       /*signature for resolve is (rootObject, args, context) */
+//       resolve: (_, args) => {
+//         return getVideoById(args.id)
+//       },
+//     },
+//     /* Add videos to the queryType with a new GraphQLListType of videoType */
+//     videos: {
+//       type: new GraphQLList(videoType),
+//       resolve: getVideos
+//     }
+//   }
+// });
+//
+// const videoInputType = new GraphQLInputObjectType({
+//  name: 'VideoInput',
+//  fields: {
+//    title: {
+//      type: new GraphQLNonNull(GraphQLString),
+//      description: 'The title of the video.',
+//    },
+//    duration: {
+//      type: new GraphQLNonNull(GraphQLInt),
+//      description: 'The duration of the video (in seconds).',
+//    },
+//    released: {
+//      type: new GraphQLNonNull(GraphQLBoolean),
+//      description: 'Whether or not the video is released.',
+//    },
+//  }
+// })
+//
+// const mutationType = new GraphQLObjectType({
+//     name: 'Mutation',
+//     description: 'The root Mutation type',
+//     fields: {
+//       createVideo: {
+//         type: videoType,
+//         args: {
+//           video: {
+//             type: new GraphQLNonNull(videoInputType)
+//           },
+//         },
+//         resolve: (_, args) => {
+//           return createVideo(args.video);
+//         },
+//       },
+//     },
+// });
+//
+// const schema = new GraphQLSchema({
+//   query: queryType,
+//   mutation: mutationType,
+// });
+//
+// server.use('/graphql', graphqlHTTP({
+//     schema,
+//     graphiql: true,
+// }));
+//
+// server.listen(PORT, () => {
+//   console.log(`Listening on http://localhost:${PORT}`);
+// });
+
+/********************************
+********* Video 13 **************
+********************************/
+// const { globalIdField } = require('graphql-relay');
+// const { getVideoById, getVideos, createVideo } = require('./src/data');
+// const express = require('express');
+// const graphqlHTTP = require('express-graphql');
+// const PORT = process.env.PORT || 3000;
+// const server = express();
+// const { nodeInterface, nodeField } = require('./src/node');
+//
+// /* Added GraphQLListType */
+// const {
+//  GraphQLNonNull,
+//  GraphQLInputObjectType,
+//  GraphQLList,
+//  GraphQLSchema,
+//  GraphQLObjectType,
+//  GraphQLID,
+//  GraphQLInt,
+//  GraphQLString,
+//  GraphQLBoolean
+// } = require('graphql');
+//
+// const videoType = new GraphQLObjectType({
+//  name: 'Video',
+//  description: 'A video on my app.',
+//  fields: {
+//    id: globalIdField(),
+//    title: {
+//      type: GraphQLString,
+//      description: 'The title of the video'
+//    },
+//    duration: {
+//      type: GraphQLInt,
+//      description: 'The duration of the video (in seconds)'
+//    },
+//    watched: {
+//      type: GraphQLBoolean,
+//      description: 'Whether or not the user has watched the video before'
+//    }
+//  },
+//  interfaces: [nodeInterface],
+// });
+//
+// exports.videoType = videoType;
+//
+// const queryType = new GraphQLObjectType({
+//  name: 'QueryType',
+//  description: 'The root query type.',
+//  fields: {
+//    node: nodeField,
+//    video: {
+//      type: videoType,
+//      args: {
+//        id: {
+//          /* Make ID a required type, throws error otherwise */
+//          type: new GraphQLNonNull(GraphQLID),
+//          description: 'The id of the video'
+//        }
+//      },
+//      /*signature for resolve is (rootObject, args, context) */
+//      resolve: (_, args) => {
+//        return getVideoById(args.id)
+//      },
+//    },
+//    /* Add videos to the queryType with a new GraphQLListType of videoType */
+//    videos: {
+//      type: new GraphQLList(videoType),
+//      resolve: getVideos
+//    }
+//  }
+// });
+//
+// const videoInputType = new GraphQLInputObjectType({
+// name: 'VideoInput',
+// fields: {
+//   title: {
+//     type: new GraphQLNonNull(GraphQLString),
+//     description: 'The title of the video.',
+//   },
+//   duration: {
+//     type: new GraphQLNonNull(GraphQLInt),
+//     description: 'The duration of the video (in seconds).',
+//   },
+//   released: {
+//     type: new GraphQLNonNull(GraphQLBoolean),
+//     description: 'Whether or not the video is released.',
+//   },
+// }
+// })
+//
+// const mutationType = new GraphQLObjectType({
+//    name: 'Mutation',
+//    description: 'The root Mutation type',
+//    fields: {
+//      createVideo: {
+//        type: videoType,
+//        args: {
+//          video: {
+//            type: new GraphQLNonNull(videoInputType)
+//          },
+//        },
+//        resolve: (_, args) => {
+//          return createVideo(args.video);
+//        },
+//      },
+//    },
+// });
+//
+// const schema = new GraphQLSchema({
+//  query: queryType,
+//  mutation: mutationType,
+// });
+//
+// server.use('/graphql', graphqlHTTP({
+//    schema,
+//    graphiql: true,
+// }));
+//
+// server.listen(PORT, () => {
+//  console.log(`Listening on http://localhost:${PORT}`);
+// });
+
+/********************************
+********* Video 14 **************
+********************************/
+// const {
+//   globalIdField,
+//   connectionDefinitions,
+//   connectionFromPromisedArray,
+//   connectionArgs,
+//  } = require('graphql-relay');
+// const { getVideoById, getVideos, createVideo } = require('./src/data');
+// const express = require('express');
+// const graphqlHTTP = require('express-graphql');
+// const PORT = process.env.PORT || 3000;
+// const server = express();
+// const { nodeInterface, nodeField } = require('./src/node');
+//
+// /* Added GraphQLListType */
+// const {
+//  GraphQLNonNull,
+//  GraphQLInputObjectType,
+//  GraphQLList,
+//  GraphQLSchema,
+//  GraphQLObjectType,
+//  GraphQLID,
+//  GraphQLInt,
+//  GraphQLString,
+//  GraphQLBoolean
+// } = require('graphql');
+//
+// const videoType = new GraphQLObjectType({
+//  name: 'Video',
+//  description: 'A video on my app.',
+//  fields: {
+//    id: globalIdField(),
+//    title: {
+//      type: GraphQLString,
+//      description: 'The title of the video'
+//    },
+//    duration: {
+//      type: GraphQLInt,
+//      description: 'The duration of the video (in seconds)'
+//    },
+//    watched: {
+//      type: GraphQLBoolean,
+//      description: 'Whether or not the user has watched the video before'
+//    }
+//  },
+//  interfaces: [nodeInterface],
+// });
+//
+// exports.videoType = videoType;
+//
+// const { connectionType: videoConnection } = connectionDefinitions({
+//   nodeType: videoType,
+//   connectionFields: () => ({
+//     totalCount: {
+//       type: GraphQLInt,
+//       description: 'The total count of videos in the connection',
+//       resolve: (conn) => {
+//         return conn.edges.length;
+//       }
+//     }
+//   })
+// })
+//
+// const queryType = new GraphQLObjectType({
+//  name: 'QueryType',
+//  description: 'The root query type.',
+//  fields: {
+//    node: nodeField,
+//    video: {
+//      type: videoType,
+//      args: {
+//        id: {
+//          /* Make ID a required type, throws error otherwise */
+//          type: new GraphQLNonNull(GraphQLID),
+//          description: 'The id of the video'
+//        }
+//      },
+//      /*signature for resolve is (rootObject, args, context) */
+//      resolve: (_, args) => {
+//        return getVideoById(args.id)
+//      },
+//    },
+//    /* Add videos to the queryType with a new GraphQLListType of videoType */
+//    videos: {
+//      type: videoConnection,
+//      args: connectionArgs,
+//      resolve: (_, args) => connectionFromPromisedArray(
+//        getVideos(),
+//        args
+//      ),
+//    }
+//  }
+// });
+//
+// const videoInputType = new GraphQLInputObjectType({
+// name: 'VideoInput',
+// fields: {
+//   title: {
+//     type: new GraphQLNonNull(GraphQLString),
+//     description: 'The title of the video.',
+//   },
+//   duration: {
+//     type: new GraphQLNonNull(GraphQLInt),
+//     description: 'The duration of the video (in seconds).',
+//   },
+//   released: {
+//     type: new GraphQLNonNull(GraphQLBoolean),
+//     description: 'Whether or not the video is released.',
+//   },
+// }
+// })
+//
+// const mutationType = new GraphQLObjectType({
+//    name: 'Mutation',
+//    description: 'The root Mutation type',
+//    fields: {
+//      createVideo: {
+//        type: videoType,
+//        args: {
+//          video: {
+//            type: new GraphQLNonNull(videoInputType)
+//          },
+//        },
+//        resolve: (_, args) => {
+//          return createVideo(args.video);
+//        },
+//      },
+//    },
+// });
+//
+// const schema = new GraphQLSchema({
+//  query: queryType,
+//  mutation: mutationType,
+// });
+//
+// server.use('/graphql', graphqlHTTP({
+//    schema,
+//    graphiql: true,
+// }));
+//
+// server.listen(PORT, () => {
+//  console.log(`Listening on http://localhost:${PORT}`);
+// });
+
+/********************************
+********* Video 15 **************
+********************************/
+const {
+  globalIdField,
+  connectionDefinitions,
+  connectionFromPromisedArray,
+  connectionArgs,
+  mutationWithClientMutationId,
+ } = require('graphql-relay');
+const { getVideoById, getVideos, createVideo } = require('./src/data');
+const express = require('express');
+const graphqlHTTP = require('express-graphql');
+const PORT = process.env.PORT || 3000;
+const server = express();
+const { nodeInterface, nodeField } = require('./src/node');
+
+/* Added GraphQLListType */
+const {
+ GraphQLNonNull,
+ GraphQLInputObjectType,
+ GraphQLList,
+ GraphQLSchema,
+ GraphQLObjectType,
+ GraphQLID,
+ GraphQLInt,
+ GraphQLString,
+ GraphQLBoolean
+} = require('graphql');
+
+const videoType = new GraphQLObjectType({
+ name: 'Video',
+ description: 'A video on my app.',
+ fields: {
+   id: globalIdField(),
+   title: {
+     type: GraphQLString,
+     description: 'The title of the video'
    },
- });
-
- const queryType = new GraphQLObjectType({
-   name: 'QueryType',
-   description: 'The root query type.',
-   fields: {
-     video: {
-       type: videoType,
-       args: {
-         id: {
-           /* Make ID a required type, throws error otherwise */
-           type: new GraphQLNonNull(GraphQLID),
-           description: 'The id of the video'
-         }
-       },
-       /*signature for resolve is (rootObject, args, context) */
-       resolve: (_, args) => {
-         return getVideoById(args.id)
-       },
-     },
-     /* Add videos to the queryType with a new GraphQLListType of videoType */
-     videos: {
-       type: new GraphQLList(videoType),
-       resolve: getVideos
-     }
+   duration: {
+     type: GraphQLInt,
+     description: 'The duration of the video (in seconds)'
+   },
+   watched: {
+     type: GraphQLBoolean,
+     description: 'Whether or not the user has watched the video before'
    }
- });
+ },
+ interfaces: [nodeInterface],
+});
 
-const videoInputType = new GraphQLInputObjectType({
-  name: 'VideoInput',
-  fields: {
+exports.videoType = videoType;
+
+const { connectionType: videoConnection } = connectionDefinitions({
+  nodeType: videoType,
+  connectionFields: () => ({
+    totalCount: {
+      type: GraphQLInt,
+      description: 'The total count of videos in the connection',
+      resolve: (conn) => {
+        return conn.edges.length;
+      }
+    }
+  })
+})
+
+const queryType = new GraphQLObjectType({
+ name: 'QueryType',
+ description: 'The root query type.',
+ fields: {
+   node: nodeField,
+   video: {
+     type: videoType,
+     args: {
+       id: {
+         /* Make ID a required type, throws error otherwise */
+         type: new GraphQLNonNull(GraphQLID),
+         description: 'The id of the video'
+       }
+     },
+     /*signature for resolve is (rootObject, args, context) */
+     resolve: (_, args) => {
+       return getVideoById(args.id)
+     },
+   },
+   /* Add videos to the queryType with a new GraphQLListType of videoType */
+   videos: {
+     type: videoConnection,
+     args: connectionArgs,
+     resolve: (_, args) => connectionFromPromisedArray(
+       getVideos(),
+       args
+     ),
+   }
+ }
+});
+
+const videoMutation = mutationWithClientMutationId({
+  name: 'AddVideo',
+  inputFields: {
     title: {
       type: new GraphQLNonNull(GraphQLString),
       description: 'The title of the video.',
@@ -946,50 +1518,38 @@ const videoInputType = new GraphQLInputObjectType({
     released: {
       type: new GraphQLNonNull(GraphQLBoolean),
       description: 'Whether or not the video is released.',
-    },
-  }
-})
- /* Instead of having this mutation field where each of the arguments correspond
- to some field that we want to create, we can use something called an input type
- to capture all of these arguments in a single object type and be able to query
- for these more complex related types.
+    }
+  },
+  outputFields: {
+    video: {
+      type: videoType
+    }
+  },
+  mutateAndGetPayload: (args) => new Promise((resolve, reject) => {
+    Promise.resolve(createVideo(args))
+      .then((video) => resolve({video}))
+      .catch(reject);
+  })
+});
 
- What we can do is get rid of all of these arguments and replace them with a
- single one called video and the type of this will be a new GraphQLNonNull and
- we'll call the argument here a videoInputType.*/
+const mutationType = new GraphQLObjectType({
+   name: 'Mutation',
+   description: 'The root Mutation type',
+   fields: {
+     createVideo: videoMutation
+   },
+});
 
- const mutationType = new GraphQLObjectType({
-     name: 'Mutation',
-     description: 'The root Mutation type',
-     fields: {
-       createVideo: {
-         type: videoType,
-         args: {
-           video: {
-             type: new GraphQLNonNull(videoInputType)
-           },
-         },
-         resolve: (_, args) => {
-           return createVideo(args.video);
-         },
-       },
-     },
- });
+const schema = new GraphQLSchema({
+ query: queryType,
+ mutation: mutationType,
+});
 
- const schema = new GraphQLSchema({
-   query: queryType,
-   mutation: mutationType,
- });
+server.use('/graphql', graphqlHTTP({
+   schema,
+   graphiql: true,
+}));
 
- server.use('/graphql', graphqlHTTP({
-     schema,
-     graphiql: true,
-     /* rootValue was removed, I hypothesize because the resolvers are now
-     defined within the schema we are passing in   */
- }));
-
- server.listen(PORT, () => { graphqlHTTP
-   console.log(`Listening on http://localhost:${PORT}`);
- });
-
- /* run node index.js in terminal/commandPrompt to see results. */
+server.listen(PORT, () => {
+ console.log(`Listening on http://localhost:${PORT}`);
+});
